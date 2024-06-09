@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>Hello World</title>
+    <url>/2024/06/09/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="article"><a href="#article" class="headerlink" title="article"></a>article</h3><p>title	【必需】頁面標題<br>date	【必需】頁面創建日期<br>type	【必需】標籤、分類和友情鏈接三個頁面需要配置<br>updated	【可選】頁面更新日期<br>description	【可選】頁面描述<br>keywords	【可選】頁面關鍵字<br>comments	【可選】顯示頁面評論模塊 (默認 true)<br>top_img	【可選】頁面頂部圖片<br>mathjax	【可選】顯示mathjax (當設置mathjax的per_page: false時，才需要配置，默認 false)<br>katex	【可選】顯示katex (當設置katex的per_page: false時，才需要配置，默認 false)<br>aside	【可選】顯示側邊欄 (默認 true)<br>aplayer	【可選】在需要的頁面加載aplayer的js和css,請參考文章下面的音樂 配置<br>highlight_shrink	【可選】配置代碼框是否展開 (true&#x2F;false) (默認為設置中highlight_shrink的配置)<br>random	【可選】配置友情鏈接是否隨機排序（默認為 false)</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>MySQL</title>
+    <url>/2024/06/09/MySQL/</url>
+    <content><![CDATA[<h1 id="explain"><a href="#explain" class="headerlink" title="explain"></a>explain</h1><p><code>id</code>：SQL语句的执行顺序，值越大优先级越高</p>
+<p><code>select_type</code>:表示select类型，常见有</p>
+<ul>
+<li><code>SIMPLE</code>：简单表，不用连表查询或者子查询</li>
+<li><code>PRIMARY</code>：主查询，即外层查询</li>
+<li><code>UNION</code>：第二个或者后面的查询语句</li>
+<li><code>SUBQUERY</code>：SELECT，WHERE之后包含的子查询</li>
+</ul>
+<p><code>type</code>：表示连接类型，性能由好到差<code>NULL&gt;system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;all</code></p>
+<ul>
+<li><p><code>NULL</code>：不查询任何表	🤣👉<strong>皇帝の新查询，查了个寂寞</strong></p>
+</li>
+<li><p><code>system</code>：查询系统表</p>
+</li>
+<li><p><code>const</code>：通过主键查询和通过唯一索引查询     <strong>神中神的优化😍</strong></p>
+</li>
+<li><p><code>eq_ref</code>：联表查询的状况，按联表的主键或惟一键联合查询</p>
+</li>
+<li><p><code>ref</code>：通过非唯一索引查询</p>
+</li>
+<li><p><code>range</code>：使用了尾部%的模糊查询和范围查询(都使用了索引)</p>
+</li>
+<li><p><code>index</code>：使用了索引，但是对索引树进行了全树扫描</p>
+</li>
+<li><p><code>all</code>：全表扫描	  <strong>整張表全部查好查滿，爛到流暢的SQL🤣👉🤡</strong></p>
+</li>
+</ul>
+<p><code>possible_keys</code>：可能用到的索引，一个或者多个</p>
+<p><code>key</code>：实际用到的索引，没有则为null</p>
+<p><code>Key_len</code>：索引所用的字节数</p>
+<p><code>row</code>：执行查询的行数，在InnoDB中是一个估值   <strong>一眼丁真，鉴定为没什么卵用😂</strong></p>
+<p><code>filtered</code>：返回结果的行数与所读取行数的百分比，越大越好</p>
+<p><code>extra</code>：额外信息</p>
+<h1 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h1><blockquote>
+<p>索引失效的场景</p>
+</blockquote>
+<ul>
+<li>最左前缀法则，假设有索引(A，B，C)<ul>
+<li>A，B，C 查询：三个都用到索引</li>
+<li>A，C查询：A用了索引</li>
+<li>B，C查询：B，C都用不到索引</li>
+</ul>
+</li>
+<li>范围查询，后续索引失效</li>
+<li>索引列运算，索引失效</li>
+<li>字符串查询不加<code>&#39;&#39;</code>会导致索引失效</li>
+<li>模糊查询(%a%，%a，a%)<ul>
+<li>尾部模糊查询索引不失效(a%)</li>
+<li>头部模糊查询索引失效(%a%，%a)</li>
+</ul>
+</li>
+<li>使用or查询，只要有一个查询条件不是索引则导致整个索引失效</li>
+<li>根据数据分布情况决定是否走索引。如果数据分布比较均匀，那么MySQL范围查询就有可能走索引。而如果数据分布不均匀，那么MySQL范围查询可能会扫描大量的数据页，从而导致性能问题。</li>
+</ul>
+<blockquote>
+<p>索引的使用</p>
+</blockquote>
+<ul>
+<li><strong>建议索引</strong>：当一张表的某个字段有两个索引(<code>idx_no no是索引</code>，<code>idx_no_name no和name都是索引</code>)，只用<code>no</code>作为查询条件时，默认使用联合索引，此时我们可以用索引提取选择或排除索引<ul>
+<li><code>use index</code>(建议使用哪个索引): select * from table use index(idx_no) where no&#x3D;?。<mark>这个只是建议使用，是否使用取决于mysql!!!</mark></li>
+<li><code>ignore index</code>(忽略哪个索引)：select * from table ignore index(idx_no_name) where no&#x3D;?</li>
+<li><code>force index</code>(强制使用哪个索引)：select * from table force index(idx_no) where no&#x3D;?</li>
+</ul>
+</li>
+<li><strong>覆盖索引</strong>：将量使用覆盖索引(查询中使用了索引，并且需要返回的字段，再改索引中全都能找到)，假设有索引<code>idx_sno_name_age</code> (除了sno，name，age。表里还有其他字段)</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--1</span></span><br><span class="line"><span class="keyword">select</span> sno,name,age <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> sno<span class="operator">=</span>?</span><br><span class="line"><span class="comment">--2</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">table</span> <span class="keyword">where</span> sno<span class="operator">=</span>?</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>1</code>会覆盖索引，即只通过查询联合索引就可以得出结果</p>
+<p>反观<code>2</code>，会查到对应的叶子节点，还会<strong>通过主键id</strong>在聚集索引中再次查找未能覆盖的属性(回表)</p>
+<ul>
+<li>**前缀索引(会回表)**：当字段类型为字符串(varchar，text等),时，有时候需要索引很长的字符串，这会让索引变得很大，查询时，浪费大量的磁盘10，影响查询效率。此时可以只将字符串的一部分前缀，建立索引，这样可以大大节约索引空间，从而提高索引效率。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--前缀大小的选择，我们可以选择count(？)/count(*)值最大(区分度) 和 字符的长度 综合的来确定索引使用的截取字段的长度</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--1</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(username) <span class="keyword">from</span> <span class="keyword">table</span></span><br><span class="line"><span class="comment">--2 去重，降低重复率</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(distance username) <span class="keyword">from</span> <span class="keyword">table</span></span><br><span class="line"><span class="comment">--3 截取username的前9个字符计算区分度</span></span><br><span class="line"><span class="keyword">select</span> <span class="built_in">count</span>(distance <span class="built_in">substring</span>(username,<span class="number">1</span>,<span class="number">9</span>))<span class="operator">/</span><span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> <span class="keyword">table</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 此处假设 第1-第7 为最优截取长度</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--前缀索引的建立</span></span><br><span class="line"><span class="keyword">create</span> index idx_username_7 <span class="keyword">on</span> <span class="keyword">table</span>(username(<span class="number">7</span>))</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>单列+联合索引</strong></li>
+</ul>
+<p>加入此时我们有两个唯一索引<code>name</code>和<code>phone</code>，如果执行一下sql</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> name,phone form <span class="keyword">table</span> <span class="keyword">where</span> name<span class="operator">=</span>? <span class="keyword">and</span> phone<span class="operator">=</span>?</span><br></pre></td></tr></table></figure>
+
+<p>结果是只有<code>name</code>使用了索引，此时我们将两个唯一索引组合成一个联合索引，并查询就可以让两个字段都是用索引。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">create idx_name_phone on table(phone,name);</span><br><span class="line">select name,phone form table where name=? and phone=?</span><br></pre></td></tr></table></figure>
+
+<h1 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h1><h2 id="Insert"><a href="#Insert" class="headerlink" title="Insert"></a>Insert</h2><p>以下有几个SQL的insert操作：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;tom&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">2</span>,<span class="string">&#x27;cat&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">3</span>,<span class="string">&#x27;jerry&#x27;</span>);</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">4</span>,<span class="string">&#x27;mouse&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>每一次只插入一条数据，这种效率很低，因为每一次insert都要连接数据库，所以我们可以<code>批量操作</code></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;tom&#x27;</span>),(<span class="number">2</span>,<span class="string">&#x27;cat&#x27;</span>),(<span class="number">3</span>,<span class="string">&#x27;jerry&#x27;</span>),(<span class="number">4</span>,<span class="string">&#x27;mouse&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>但是如果数据过多，一次全部插入可能导致<code>内存消耗过大</code>，<code>插入的线程长时间霸占锁</code>以及<code>如果发生异常导致回滚会造成额外的开销</code>，此时我们可以使用<code>手动提交事务</code></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">start</span> transcation;</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">&#x27;tom&#x27;</span>),(<span class="number">2</span>,<span class="string">&#x27;cat&#x27;</span>),(<span class="number">3</span>,<span class="string">&#x27;jerry&#x27;</span>),(<span class="number">4</span>,<span class="string">&#x27;mouse&#x27;</span>);</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>主键顺序插入</code>，可以提高插入性能，减少磁盘碎片化，提高数据访问效率</li>
+</ul>
+<p>大批量插入数据，使用insert语句插入性能较低，可以使用load指令进行插入</p>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">1.登录时：mysql --local-infile -u root -p;</span><br><span class="line">2.开启从本地导入数据库的开关： set global local<span class="emphasis">_infile=1;</span></span><br><span class="line"><span class="emphasis">3.加载数据： load data local infile &#x27;sql path&#x27; into table tableName field terminate by &#x27;,&#x27; lines terminated by &#x27;\n&#x27;;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="primary-key"><a href="#primary-key" class="headerlink" title="primary key"></a>primary key</h1><blockquote>
+<p>前置知识</p>
+</blockquote>
+<p><img src="https://image.kaelvihn.top/article/2023-10-4-1.jpg" alt="InnoDB数据结构图"></p>
+<ul>
+<li><strong>B+ Tree</strong><ul>
+<li>非叶子节点不存储data，只存储索引</li>
+<li>叶子结点包含所有索引字段</li>
+<li>叶子节点用指针连接，提高区间访问性能</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img src="https://image.kaelvihn.top/article/2023-10-5-1.jpg" alt="逻辑存储结构图"></p>
+<ul>
+<li><strong>数据组织方式</strong><ul>
+<li>在innodb中，表数据都是根据主键顺序存放的这种方式叫做<strong>索引组织表</strong>(Index Organized table<code>IOT</code>)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<p><img src="https://image.kaelvihn.top/article/2023-10-5-2.jpg" alt="页分裂"></p>
+<ul>
+<li><strong>页分裂</strong>：主键的乱序插入会导致<strong>页分裂</strong>，损耗性能。所以主键策略推荐使用(主键自增和雪花算法)</li>
+</ul>
+<hr>
+<p><img src="https://image.kaelvihn.top/article/2023-10-5-3.jpg" alt="页合并"></p>
+<ul>
+<li><strong>页合并</strong>：当刚除一行记录时，实际上记录并没有被物理刚除，只是记录被标记(flaged)为刚除并且它的空间变得允许被其他记录声明使用当页中州除的记录达到 MERGETHRESHOLD(默认为页的50%)，lnnoDB会开始寻找最近的页(前或后)看看是否可以将两个页合并以优化空间使用。</li>
+</ul>
+<blockquote>
+<p>主键设计原则</p>
+</blockquote>
+<ul>
+<li>在不影响业务的情况下，尽量降低主键长度</li>
+<li>选择<strong>自增</strong>或者<strong>雪花算法</strong>，避免使用<strong>UUID</strong>(乱序插入会导致页分裂)</li>
+<li>业务操作时，避免对主键的修改(会修改对应的索引结构)</li>
+</ul>
+<h2 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h2><blockquote>
+<p>前置知识</p>
+</blockquote>
+<p>order by查询会出现几种情况：（通过explain的extra查看）</p>
+<ul>
+<li>**using es0(效率低)**：通过表的索引或全表扫描，读取满足条件的数据行，然后在排序缓冲区sort buffer中完成排序操作，所有不是通过索引直接返回排序结果的排序都叫 FileSot 排序。</li>
+<li><strong>Using index(效率高)</strong>:通过有序索引顺序扫描直接返回有序数据，这种情况即为using index，不需要额外排序，操作效率高。</li>
+<li><strong>Backward index scan</strong>：反向扫描索引</li>
+</ul>
+<blockquote>
+<p>优化</p>
+</blockquote>
+<ul>
+<li>建立合适的索引，多字段排序时，也遵循最左前缀法则</li>
+<li>尽量使用覆盖索引</li>
+<li>多字段排序，一个升序一个降序，在建立索引时创建索引排序规则(默认为升序)，也可以手动指定</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">create</span> index idx_name_phone <span class="keyword">on</span> table_name(name <span class="keyword">desc</span>,phone <span class="keyword">asc</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在不可避免出现filesort时，可以适当增加缓冲区大小(默认为256k)。<mark>如果排序时缓冲区占满了，会在磁盘中排序，导致性能下降！！！</mark></li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--查看缓冲区大小</span></span><br><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;sort_buffer_size&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h2><ul>
+<li>分组操作时，可以通过索引提升效率</li>
+<li>分组操作时，索引也是符合最左前缀法则</li>
+</ul>
+<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><ul>
+<li>覆盖索引加子查询</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span><span class="keyword">from</span> table_name t,(<span class="keyword">select</span> id <span class="keyword">from</span> table_name <span class="keyword">order</span> <span class="keyword">by</span> id limit <span class="number">200000</span>,<span class="number">10</span>) a <span class="keyword">where</span> t.id<span class="operator">=</span>a.id</span><br></pre></td></tr></table></figure>
+
+<h2 id="count"><a href="#count" class="headerlink" title="count"></a>count</h2><ul>
+<li>**count(主键)**：遍历整张表，取出主键，累加</li>
+<li>**count(字段)**：遍历整张表，取出字段，判断是否为null，是null就不计入累加。如果字段有not null则无需判断</li>
+<li>**count(1)**：遍历整张表，不取值。返回的每一行都会放一个’1’，直接进行累加</li>
+<li>*<em>count(</em>)**：不会将全部字段取出，而是专门做了优化，直接累加</li>
+<li><strong>效率</strong>：<strong>count(*)<strong>≈</strong>count(1)</strong>&gt;<strong>count(主键)</strong>&gt;<strong>count(字段)</strong></li>
+</ul>
+<h2 id="update"><a href="#update" class="headerlink" title="update"></a>update</h2><p>innodb的更新默认使用的是行锁，但是在判断条件不是索引时，行锁会升级成表锁。假设<strong>user</strong>表有索引<strong>id</strong>，普通字段name，phone</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--会话一，二开启事务，更新语句但是没提交时，会话二的更新会被阻塞，当会话一commit之后，会话二才惊醒更新(会话一和会话二修改的是不同的行数据，但是会话二却阻塞了，说明了此时的行锁升级成了表锁)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">--会话一</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> name<span class="operator">=</span><span class="string">&#x27;张麻子&#x27;</span> <span class="keyword">where</span> phone<span class="operator">=</span><span class="string">&#x27;114514&#x27;</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="comment">--会话二</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> name<span class="operator">=</span><span class="string">&#x27;曹操&#x27;</span> <span class="keyword">where</span> phone<span class="operator">=</span><span class="string">&#x27;123456&#x27;</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--会话一，二开启事务，更新语句但是没提交时，会话二的更新也能进行，说明此时成功使用了行锁</span></span><br><span class="line"><span class="comment">--会话一</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> name<span class="operator">=</span><span class="string">&#x27;张麻子&#x27;</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">1</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br><span class="line"><span class="comment">--会话二</span></span><br><span class="line"><span class="keyword">begin</span>;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> name<span class="operator">=</span><span class="string">&#x27;曹阿瞒&#x27;</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">2</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
+
+<p>根据上述实验说明，我们在进行update时尽量通过索引去进行update，防止行锁升级成表锁，降低并发性能</p>
+<h1 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h1><blockquote>
+<p>操作区分</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>锁类型</th>
+<th>SQL操作</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>共享锁(Share Lock)</strong></td>
+<td>select…for share</td>
+</tr>
+<tr>
+<td><strong>排他锁(Excute Lock)</strong></td>
+<td>update,delete,insert,select…for update</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>是否兼容</th>
+<th>共享锁(Share Lock)</th>
+<th>排他锁(Excute Lock)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>共享锁(Share Lock)</strong></td>
+<td>✔</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>排他锁(Excute Lock)</strong></td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>粒度区分</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>锁类型</th>
+<th>范围</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>表级锁(Table Lock)</strong></td>
+<td>整张表</td>
+<td>开销小，并发性差</td>
+</tr>
+<tr>
+<td><strong>行级锁(Row Lock)</strong></td>
+<td>一行数据</td>
+<td>开销大，并发性强，会发生死锁</td>
+</tr>
+</tbody></table>
+<h2 id="表锁"><a href="#表锁" class="headerlink" title="表锁"></a>表锁</h2><blockquote>
+<p>表的X锁和X锁</p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--开启表锁</span></span><br><span class="line">lock tables `table_name` read<span class="operator">/</span>write</span><br><span class="line"><span class="comment">--解锁</span></span><br><span class="line">lock tables</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>锁类型</th>
+<th>自己可读</th>
+<th>自己可写</th>
+<th>他人可读</th>
+<th>他人可写</th>
+<th>自己可操作其他表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>共享锁(Share Lock)</strong></td>
+<td>✔</td>
+<td>❌</td>
+<td>✔</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>排他锁(Excute Lock)</strong></td>
+<td>✔</td>
+<td>✔</td>
+<td>❌</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>意向锁(自动添加)</p>
+</blockquote>
+<p><strong>协调行锁，表锁</strong>的一种<strong>表锁</strong>，支持多粒度锁共存。(所用：用于快速识别表中所加的行锁)</p>
+<ul>
+<li>如果在某行加了<strong>X锁</strong>，数据库会自动在表级别加一个<strong>意向排他锁</strong></li>
+<li>如果在某行加了<strong>S锁</strong>，数据库会自动在表级别加一个<strong>意向共享锁</strong></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>是否兼容</th>
+<th>意向共享锁(Intention Share Lock)</th>
+<th>意向排他锁(Intention Excute Lock)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>共享锁(Share Lock)</strong></td>
+<td>✔</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>排他锁(Excute Lock)</strong></td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>元数据锁(自动添加)</p>
+</blockquote>
+<p>通过在修改表结构时上元数据锁(Meta Data Lock)，来确保读写的正确性</p>
+<h2 id="行锁"><a href="#行锁" class="headerlink" title="行锁"></a>行锁</h2><blockquote>
+<p>记录锁</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>锁类型</th>
+<th>自己可读</th>
+<th>自己可写</th>
+<th>他人可读</th>
+<th>他人可写</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>共享锁(Share Lock)</strong></td>
+<td>✔</td>
+<td>✔</td>
+<td>✔</td>
+<td>❌</td>
+</tr>
+<tr>
+<td><strong>排他锁(Excute Lock)</strong></td>
+<td>✔</td>
+<td>✔</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>间隙锁(帮助innodb解决幻读)</p>
+</blockquote>
+<p>使用了间隙锁的区间和间隙无法插入元素，使的innodb可以在rr(可重复读)的级别下解决幻读的问题。假设有一张表<strong>user</strong>:<mark>间隙锁只会解决读与写的冲突！！！！</mark></p>
+<table>
+<thead>
+<tr>
+<th>id(primary key)</th>
+<th>name(index)</th>
+<th>age</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1</td>
+<td>tom</td>
+<td>12</td>
+</tr>
+<tr>
+<td>8</td>
+<td>cat</td>
+<td>14</td>
+</tr>
+<tr>
+<td>14</td>
+<td>jerry</td>
+<td>18</td>
+</tr>
+<tr>
+<td>19</td>
+<td>mouse</td>
+<td>11</td>
+</tr>
+<tr>
+<td>25</td>
+<td>kon</td>
+<td>9</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--(1,8)区间被加了间隙锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">3</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br><span class="line"><span class="comment">--(25,+∞)区间被加了间隙锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">=</span><span class="number">30</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br><span class="line"><span class="comment">--[8,19)区间被加了间隙锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id b <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>临键锁</p>
+</blockquote>
+<p>间隙锁+记录锁(包含间隙和数据)</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--(1,8]区间被加了间隙锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> id<span class="operator">&gt;</span><span class="number">1</span> <span class="keyword">and</span> id<span class="operator">&lt;=</span><span class="number">8</span> <span class="keyword">for</span> <span class="keyword">update</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="MVCC-多版本并发控制"><a href="#MVCC-多版本并发控制" class="headerlink" title="MVCC(多版本并发控制)"></a>MVCC(多版本并发控制)</h1><p><strong>读-写</strong>或<strong>写-读</strong>，即一个事务进行读取操作，另一个进行改动操作。这种情况下可能发生 脏读、 不可重复读、幻读的问题。<br>各个数据库厂商对 SOL标准 的支持都可能不一样。比如MVSOL在 REPEATABLE READ 隔离级别上就已经解决了<strong>读-写</strong>问题。</p>
+<p>MVCC，即多版本并发控制。其实现方法主要依赖于<strong>隐藏字段</strong>，<strong>Undo Log</strong>，<strong>Read View</strong></p>
+<blockquote>
+<p>快照读(一致性读)</p>
+</blockquote>
+<p>快照读读的是历史版本,<strong>不加锁的select都属于快照读</strong>，即不加锁的非阻塞读，比如：</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span><span class="keyword">from</span> `table_name` <span class="keyword">where</span> ...</span><br></pre></td></tr></table></figure>
+
+<p>快照读是基于性能的考虑，实现是基于MVCC，在很多情况下避免了加锁，降低了开销</p>
+<blockquote>
+<p>当前读</p>
+</blockquote>
+<p>当前读读的是最新数据，读取时还需要保证其他的并发事务不能修改数据，会对读取的记录，比如</p>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--共享锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span><span class="keyword">from</span> `table_name` <span class="keyword">where</span> ...<span class="keyword">for</span> share</span><br><span class="line"><span class="comment">--排他锁</span></span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span><span class="keyword">from</span> `table_name` <span class="keyword">where</span> ...<span class="keyword">for</span> <span class="keyword">update</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> `table_name` <span class="keyword">values</span> ...</span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> `table_name` <span class="keyword">where</span> ...</span><br><span class="line"><span class="keyword">update</span>  `table_name` <span class="keyword">set</span> ...</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>隐藏字段，Undo Log版本链</p>
+</blockquote>
+<p>隐藏字段：</p>
+<ul>
+<li>trx_id：事务id</li>
+<li>roll_pointer:形成版本链表的指针，由最新的版本指向老版本</li>
+</ul>
+<p>每次对记录进行改动，都会记录一条undo日志，每条undo日志也都有一个<strong>roll_pointer</strong> 属性 (INSERT操作对应的undo日志没有该属性，因为该记录并没有更早的版本)，可以将这些 <strong>undo日志</strong>都连起来，串成一个链表(<strong>尾插法，并且是最新的版本指向老版本</strong>):</p>
+<p><img src="https://image.kaelvihn.top/article/2023-10-6-1.jpg"></p>
+<p>对该记录每次更新后，都会将旧值放到一条<strong>undo日志</strong> 中，就算是该记录的一个旧版本，随着更新次数的增多，所有的版本都会被 <strong>roll_pointer <strong>属性连接成一个链表，我们把这个链表称之为 <strong>版本链</strong>，版本链的头节点就是当前<br>记录最新的值。<br>每个版本中还包含生成该版本时对应的</strong>事务id</strong></p>
+<blockquote>
+<p>Read View</p>
+</blockquote>
+<p>在MVCC中，多个事务对同一个记录进行更新会产生多个历史快照，并且这些历史快照都保存在Undo Log中。而Read View通过记录<strong>活跃事务的ID</strong>(事务begin了，但是还没commit)来确定我们应该读取哪个历史快照。</p>
+<p><strong>Read View主要分为4各部分：</strong></p>
+<ul>
+<li><code>creator_trx_id</code>：创建这个Read View的事务ID</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">改动时会分配事务id，读时为0</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>trx_ids</code>：表示生成Read View时当前系统中活跃的读写事务的<code>事务id列表</code></li>
+<li><code>up_limit_id</code>：活跃事务中最小的事务id</li>
+<li><code>low_limit_id</code>：表示生成Read View时系统中应该分配给下一个事务的id值。low_limit_id是系统最大的事务id值。</li>
+</ul>
+<figure class="highlight markdown"><table><tr><td class="code"><pre><span class="line">比如有1，2,3,4事务在进行修改，此时有一个事务准备去读取数据(<span class="strong">**假设1,4</span></span><br><span class="line"><span class="strong">已提交**</span>)，便会生成一个Read View。</span><br><span class="line"><span class="strong">**trx<span class="emphasis">_id=2,3**</span></span></span><br><span class="line"><span class="emphasis"><span class="strong">**up_</span>limit<span class="emphasis">_id=2**</span></span></span><br><span class="line"><span class="emphasis"><span class="strong">**low_</span>limit<span class="emphasis">_id=5**</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Read View规则：</strong></p>
+<ul>
+<li><code>trx_id = creator_trx_id </code>：意味着当前事务在<strong>访问它自己修改过的记录</strong>，所以该版本<strong>可以被当前事务访问。</strong></li>
+<li><code>trx_id &lt; up_limit_id值</code>：表明生成该版本的事务<strong>在当前事务生成ReadView前已经提交</strong>，所以该版本<strong>可以被当前事务访问。</strong></li>
+<li><code>trx_id &gt;= low_limit_id </code>：表明生成该版本的事务<strong>在当前事务生成ReadView后才开启</strong>，所以该版本<strong>不可以被当前事务访问。</strong></li>
+<li><code>up_limit_id &lt; trx_id &lt; low_limit_id</code>：那就需要判断一下trx_id属性值是不是在<code>trx_ids</code>列表中<ul>
+<li>如果<strong>在</strong>，这说明该事务还是活跃的，<strong>不能访问</strong></li>
+<li>如果<strong>不在</strong>，这说明该事务还是已提交，<strong>能访问</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>MVCC操作流程(查询)</p>
+</blockquote>
+<ol>
+<li>首先获取事务自己的版本号，也就是事务ID;</li>
+<li>获取 ReadView;</li>
+<li>查询得到的数据，然后与 ReadView 中的事务版本号进行比较</li>
+<li>如果不符合 ReadView 规则，就需要从 Undo Log 中获取历史快照</li>
+<li>最后返回符合规则的数据</li>
+</ol>
+<hr>
+<p><strong>读已提交</strong></p>
+<table>
+<thead>
+<tr>
+<th>事务</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin</td>
+<td></td>
+</tr>
+<tr>
+<td>select *from <code>table_name</code>  where id&gt;2</td>
+<td>获取一次Read View</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+</tr>
+<tr>
+<td>select *from  <code>table_name</code>  where id&gt;2</td>
+<td>获取一次Read View</td>
+</tr>
+<tr>
+<td>commit</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><strong>可重复读</strong></p>
+<table>
+<thead>
+<tr>
+<th>事务</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>begin</td>
+<td></td>
+</tr>
+<tr>
+<td>select *from <code>table_name</code>  where id&gt;2</td>
+<td>获取一次Read View</td>
+</tr>
+<tr>
+<td>…</td>
+<td></td>
+</tr>
+<tr>
+<td>select *from  <code>table_name</code>  where id&gt;2</td>
+<td></td>
+</tr>
+<tr>
+<td>commit</td>
+<td></td>
+</tr>
+</tbody></table>
+]]></content>
+  </entry>
+</search>
